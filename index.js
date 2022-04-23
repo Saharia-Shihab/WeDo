@@ -624,6 +624,27 @@ const LatestOnGogo = document.querySelector('#LatestOnGogo');
                     AnchorElement.setAttribute('href', `#${item.getAttribute('title')}`);
                     AnchorElement.innerHTML = item.getAttribute('title');
                     SidebarContainer.appendChild(AnchorElement);
+                    AnchorElement.addEventListener('click', () => {
+                        const __URL = `https://gogoanime.sk${item.getAttribute('href')}?page=01`;
+                        fetch(__URL)
+                            .then(res => res.text())
+                            .then(GENREShtml => {
+                                const Parser = new DOMParser();
+                                const GENRES = Parser.parseFromString(GENREShtml, "text/html");
+                                const last_episodes = GENRES.querySelector('div.last_episodes');
+                                const ListEpisode = last_episodes.querySelectorAll('ul.items > li');
+                                LatestOnGogo.innerHTML = "";
+                                useLoop((episode, index) => {
+                                    const Title = episode.querySelector('p.name > a').getAttribute('title');
+                                    const Link = `https://gogoanime.sk${episode.querySelector('div.img > a').getAttribute('href')}`;
+                                    const ImgSrc = `${episode.querySelector('div.img > a > img').getAttribute('src')}`;
+                                    const Released = `${episode.querySelector('p.released').innerHTML}`.trim();
+                                    LatestOnGogo.appendChild(toCard(Link, ImgSrc, Title, Released));
+                                }, [...ListEpisode]);
+                            });
+                    });
+
+
                 }, [...GeneralList]);
                 useLoop((item, index) => {
                     const Title = item.querySelector('p.name > a').getAttribute('title');
