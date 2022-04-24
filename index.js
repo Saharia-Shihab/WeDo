@@ -563,6 +563,7 @@ function toCard(Link, ImgSrc, Title, Episode) {
 
 /** @type {HTMLHeadElement} */
 const HeaderElement = document.querySelector('header.header');
+
 /** @type {HTMLInputElement} */
 const SearchElement = document.querySelector('#Search__Element');
 
@@ -580,6 +581,9 @@ const SidebarContainer = document.querySelector('aside.sidebar-drawer > .sidebar
 
 /** @type {HTMLDivElement} */
 const SidebarOverlay = document.querySelector('div#sidebar_overlay');
+
+/** @type {HTMLDivElement} */
+const mainTitle = document.querySelector('#main_title');
 
 /** @type {HTMLDivElement} */
 const LatestOnGogo = document.querySelector('#LatestOnGogo');
@@ -634,6 +638,7 @@ const LatestOnGogo = document.querySelector('#LatestOnGogo');
                                 const last_episodes = GENRES.querySelector('div.last_episodes');
                                 const ListEpisode = last_episodes.querySelectorAll('ul.items > li');
                                 LatestOnGogo.innerHTML = "";
+                                mainTitle.innerHTML = "Category " + item.getAttribute('title');
                                 useLoop((episode, index) => {
                                     const Title = episode.querySelector('p.name > a').getAttribute('title');
                                     const Link = `https://gogoanime.sk${episode.querySelector('div.img > a').getAttribute('href')}`;
